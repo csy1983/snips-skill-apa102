@@ -1,15 +1,42 @@
 const rpio = require('rpio')
-const Apa102spi = require('apa102-spi')
+const spi = require('spi-device')
 
 const LED_COUNT = 12
 
-const leds = new Apa102spi(LED_COUNT + 1, 16)
-
+/* Power up the respeaker leds using gpio5 */
 rpio.init({
-    gpiomem: false,
+    gpiomem: true,
     mapping: 'gpio'
 })
 rpio.open(5, rpio.OUTPUT, rpio.HIGH)
+
+/* Allocate the APA102 buffer */
+const bufferLength = (LED_COUNT + 1) * 4 + 4
+const writeBuffer = Buffer.concat([
+    Buffer.alloc(4, '00000000', 'hex'),
+    Buffer.alloc(bufferLength - 4, 'E0000000', 'hex')
+], bufferLength)
+
+/* Init. SPI */
+const apa102 = spi.openSync(0, 0)
+
+/* Expose base functions */
+const leds = {
+    setLedColor (n, brightness, r, g, b) {
+        n *= 4
+        n += 4
+        writeBuffer[n] = brightness | 0b11100000
+        writeBuffer[n + 1] = b
+        writeBuffer[n + 2] = g
+        writeBuffer[n + 3] = r
+    },
+    sendLeds () {
+        apa102.transferSync([{
+            sendBuffer: writeBuffer,
+            byteLength: bufferLength
+        }])
+    }
+}
 
 module.exports = {
     getDriver() {
