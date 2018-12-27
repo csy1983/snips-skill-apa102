@@ -1,0 +1,26 @@
+{
+  "name": "skill-apa102",
+  "version": "0.0.1",
+  "description": "Snips skill for the respeaker 4 mics array hat apa 102 leds",
+  "main": "action-skill-apa102.js",
+  "dependencies": {
+    "apa102-spi": "^0.0.5",
+    "eslint": "^5.11.0",
+    "mqtt": "^2.18.8",
+    "rpio": "^1.0.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elbywan/snips-skill-apa102.git"
+  },
+  "author": "Julien Elbaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elbywan/snips-skill-apa102/issues"
+  },
+  "homepage": "https://github.com/elbywan/snips-skill-apa102#readme"
+}
