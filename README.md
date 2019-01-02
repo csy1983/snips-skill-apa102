@@ -22,6 +22,9 @@ sam service restart snips-skill-server
 cd /var/lib/snips/skills/
 # Clone from the repository
 git clone https://github.com/elbywan/snips-skill-apa102
+# Install dependencie
+cd snips-skill-apa102
+npm install
 # Restart the skill server
 sudo systemctl restart snips-skill-server
 ```
